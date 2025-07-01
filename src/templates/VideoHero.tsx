@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 import React from 'react';
 
 const VideoHero = () => (
@@ -30,12 +31,12 @@ const VideoHero = () => (
         >
           Contact
         </a>
-        <a
+        <Link
           href="/host"
           className="rounded-lg bg-gold px-2 py-1 text-xs font-bold text-brand transition-colors hover:bg-yellow-400 sm:px-3 sm:py-2 sm:text-sm md:px-4 md:py-2 md:text-base"
         >
           Host the Challenge
-        </a>
+        </Link>
       </nav>
     </header>
 
@@ -57,7 +58,7 @@ const VideoHero = () => (
       </video>
 
       {/* Semi-transparent white overlay for readability */}
-      <div className="absolute left-0 top-0 size-full bg-white bg-opacity-30"></div>
+      <div className="absolute left-0 top-0 size-full bg-white/30"></div>
 
       {/* Hero content */}
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center">

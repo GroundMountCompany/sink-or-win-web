@@ -29,7 +29,7 @@ const PartnerSection = () => {
 
       {/* Modal Form */}
       {showForm && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 px-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4">
           <div className="relative w-full max-w-xl rounded-2xl bg-white p-8 text-brand shadow-xl">
             <button
               onClick={() => setShowForm(false)}
