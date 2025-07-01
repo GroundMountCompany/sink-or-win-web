@@ -1,6 +1,9 @@
 export const AppConfig = {
-  site_name: 'Starter',
-  title: 'Nextjs Starter',
-  description: 'Starter code for your Nextjs Boilerplate with Tailwind CSS',
+  site_name: 'Sink or Win',
+  title: 'Sink or Win',
+  author: 'Sink or Win, LLC',
+  headerTitle: 'Sink or Win',
+  description: 'Floating par-3, $10K hole-in-one challenge for golf courses',
+  siteUrl: 'https://sinkorwin.com',
   locale: 'en',
 };

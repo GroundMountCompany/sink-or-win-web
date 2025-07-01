@@ -1,15 +1,28 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 import { Background } from '../background/Background';
 import { CenteredFooter } from '../footer/CenteredFooter';
 import { Section } from '../layout/Section';
-import { Logo } from './Logo';
 
 const Footer = () => (
-  <Background color="bg-gray-100">
+  <Background color="bg-lightGreen">
     <Section>
       <CenteredFooter
-        logo={<Logo />}
+        logo={
+          <div className="mb-4 flex flex-col items-center justify-center">
+            <Image
+              src="/logo.png"
+              alt="Sink or Win Logo"
+              width={160}
+              height={160}
+              className="mb-2"
+            />
+            <p className="text-center text-sm text-brand">
+              © 2025 Sink or Win. Now popping up in Texas.
+            </p>
+          </div>
+        }
         iconList={
           <>
             <Link href="/">
@@ -60,15 +73,20 @@ const Footer = () => (
           <Link href="/">Home</Link>
         </li>
         <li>
-          <Link href="/">About</Link>
+          <a
+            href="#about"
+            className="cursor-pointer px-4 py-2 text-white hover:underline"
+          >
+            About
+          </a>
         </li>
         <li>
-          <Link href="/">Docs</Link>
-        </li>
-        <li>
-          <Link href="https://github.com/ixartz/Next-JS-Landing-Page-Starter-Template">
-            GitHub
-          </Link>
+          <a
+            href="#contact"
+            className="cursor-pointer px-4 py-2 text-white hover:underline"
+          >
+            Contact
+          </a>
         </li>
       </CenteredFooter>
     </Section>

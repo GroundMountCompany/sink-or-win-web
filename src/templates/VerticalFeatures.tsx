@@ -3,27 +3,27 @@ import { Section } from '../layout/Section';
 
 const VerticalFeatures = () => (
   <Section
-    title="Your title here"
-    description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus malesuada nisi tellus, non imperdiet nisi tempor at."
+    title="Why Choose Sink or Win"
+    description="Experience the most exciting floating par-3 challenge with the chance to win big."
   >
     <VerticalFeatureRow
-      title="Your title here"
-      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse bibendum, nunc non posuere consectetur, justo erat semper enim, non hendrerit dui odio id enim."
+      title="Floating Par-3 Experience"
+      description="Our unique floating green creates an unforgettable golf experience that challenges even the best players. The excitement of hitting to a floating target is unmatched."
       image="/assets/images/feature.svg"
-      imageAlt="First feature alt text"
+      imageAlt="Floating par-3 green illustration"
     />
     <VerticalFeatureRow
-      title="Your title here"
-      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse bibendum, nunc non posuere consectetur, justo erat semper enim, non hendrerit dui odio id enim."
+      title="$10,000 Hole-in-One Challenge"
+      description="Take on the ultimate challenge with a $10,000 hole-in-one prize. Our challenge creates excitement and brings out the competitive spirit in every golfer."
       image="/assets/images/feature2.svg"
-      imageAlt="Second feature alt text"
+      imageAlt="Prize money illustration"
       reverse
     />
     <VerticalFeatureRow
-      title="Your title here"
-      description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse bibendum, nunc non posuere consectetur, justo erat semper enim, non hendrerit dui odio id enim."
+      title="Premier Golf Locations"
+      description="Experience the challenge at top-rated golf courses across Texas. Each location offers the same exciting opportunity to test your skills and win big."
       image="/assets/images/feature3.svg"
-      imageAlt="Third feature alt text"
+      imageAlt="Golf course locations illustration"
     />
   </Section>
 );

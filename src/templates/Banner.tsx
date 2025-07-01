@@ -1,18 +1,18 @@
-import Link from 'next/link';
-
-import { Button } from '../button/Button';
 import { CTABanner } from '../cta/CTABanner';
 import { Section } from '../layout/Section';
 
 const Banner = () => (
   <Section>
     <CTABanner
-      title="Lorem ipsum dolor sit amet consectetur adipisicing elit."
-      subtitle="Start your Free Trial."
+      title="Ready to take the ultimate floating par-3 challenge?"
+      subtitle="Test your skills and win big with our exciting hole-in-one challenge."
       button={
-        <Link href="https://creativedesignsguru.com/category/nextjs/">
-          <Button>Get Started</Button>
-        </Link>
+        <a
+          href="#pricing"
+          className="inline-flex items-center justify-center rounded bg-gold px-6 py-3 text-center text-base font-medium text-brand hover:bg-yellow-400"
+        >
+          Choose Your Shot Pack
+        </a>
       }
     />
   </Section>

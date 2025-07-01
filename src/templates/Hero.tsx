@@ -8,32 +8,25 @@ import { NavbarTwoColumns } from '../navigation/NavbarTwoColumns';
 import { Logo } from './Logo';
 
 const Hero = () => (
-  <Background color="bg-gray-100">
+  <Background color="bg-dark">
     <Section yPadding="py-6">
       <NavbarTwoColumns logo={<Logo xl />}>
         <li>
-          <Link href="https://github.com/ixartz/Next-JS-Landing-Page-Starter-Template">
-            GitHub
-          </Link>
+          <Link href="/">About</Link>
         </li>
         <li>
-          <Link href="/">Sign in</Link>
+          <Link href="/">Contact</Link>
         </li>
       </NavbarTwoColumns>
     </Section>
 
     <Section yPadding="pt-20 pb-32">
       <HeroOneButton
-        title={
-          <>
-            {'The modern landing page for\n'}
-            <span className="text-primary-500">React developers</span>
-          </>
-        }
-        description="The easiest way to build a React landing page in seconds."
+        title={<>{'Can You Stick the Green?'}</>}
+        description="$5 a shot. Land it on the green? You get a free one. Stick two in a row and you're firing for $10,000."
         button={
-          <Link href="https://creativedesignsguru.com/category/nextjs/">
-            <Button xl>Download Your Free Theme</Button>
+          <Link href="#pricing">
+            <Button xl>Choose Your Shot Pack</Button>
           </Link>
         }
       />
