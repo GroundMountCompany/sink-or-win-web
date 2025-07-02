@@ -24,7 +24,7 @@ export default async function handler(
 
     // Send email using Resend
     const { data, error } = await resend.emails.send({
-      from: 'no-reply@sinkorwin.com',
+      from: 'Sink or Win <no-reply@groundmounts.com>',
       to: 'erik@sinkorwin.com',
       subject: `Host Inquiry – ${courseName || 'General Inquiry'}`,
       html: `
