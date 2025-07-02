@@ -15,11 +15,56 @@ const Host = () => {
     phone: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    'idle' | 'success' | 'error'
+  >('idle');
+  const [statusMessage, setStatusMessage] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const mailtoLink = `mailto:erik@sinkorwin.com?subject=Host Inquiry - ${formData.courseName}&body=Name: ${formData.name}%0ACourse Name: ${formData.courseName}%0AEmail: ${formData.email}%0APhone: ${formData.phone}%0AMessage: ${formData.message}`;
-    window.location.href = mailtoLink;
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setStatusMessage('');
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setStatusMessage(
+          "Host inquiry sent successfully! We'll get back to you soon.",
+        );
+        // Reset form
+        setFormData({
+          name: '',
+          courseName: '',
+          email: '',
+          phone: '',
+          message: '',
+        });
+      } else {
+        setSubmitStatus('error');
+        setStatusMessage(
+          result.error || 'Failed to send inquiry. Please try again.',
+        );
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      setStatusMessage(
+        'Network error. Please check your connection and try again.',
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (
@@ -239,6 +284,19 @@ const Host = () => {
             <h2 className="mb-6 text-center text-2xl font-bold sm:text-3xl md:text-4xl">
               Get Started
             </h2>
+
+            {/* Status Messages */}
+            {submitStatus === 'success' && (
+              <div className="mb-6 rounded bg-green-100 p-4 text-green-700">
+                {statusMessage}
+              </div>
+            )}
+            {submitStatus === 'error' && (
+              <div className="mb-6 rounded bg-red-100 p-4 text-red-700">
+                {statusMessage}
+              </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
                 <div>
@@ -304,9 +362,10 @@ const Host = () => {
               <div className="text-center">
                 <button
                   type="submit"
-                  className="w-full rounded-lg bg-gold px-6 py-3 text-base font-bold text-brand transition-colors hover:bg-yellow-400 sm:w-auto sm:px-8 sm:py-4 sm:text-lg"
+                  disabled={isSubmitting}
+                  className="w-full rounded-lg bg-gold px-6 py-3 text-base font-bold text-brand transition-colors hover:bg-yellow-400 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:px-8 sm:py-4 sm:text-lg"
                 >
-                  Send Message
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </button>
               </div>
             </form>

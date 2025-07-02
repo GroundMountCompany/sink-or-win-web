@@ -4,6 +4,87 @@ import { useState } from 'react';
 
 const PartnerSection = () => {
   const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    phone: '',
+    email: '',
+    courseName: '',
+    waterFeature: '',
+    message: '',
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    'idle' | 'success' | 'error'
+  >('idle');
+  const [statusMessage, setStatusMessage] = useState('');
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+    setStatusMessage('');
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          courseName: formData.courseName,
+          email: formData.email,
+          phone: formData.phone,
+          message: `Partner Inquiry\n\nContact Name: ${formData.name}\nPhone: ${formData.phone}\nEmail: ${formData.email}\nGolf Course: ${formData.courseName}\nLarge Water Feature: ${formData.waterFeature}\n\nAdditional Message: ${formData.message}`,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setStatusMessage(
+          "Partner inquiry sent successfully! We'll get back to you soon.",
+        );
+        // Reset form
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          courseName: '',
+          waterFeature: '',
+          message: '',
+        });
+        // Close modal after a delay
+        setTimeout(() => {
+          setShowForm(false);
+          setSubmitStatus('idle');
+        }, 3000);
+      } else {
+        setSubmitStatus('error');
+        setStatusMessage(
+          result.error || 'Failed to send inquiry. Please try again.',
+        );
+      }
+    } catch (error) {
+      setSubmitStatus('error');
+      setStatusMessage(
+        'Network error. Please check your connection and try again.',
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="mx-auto my-12 max-w-5xl rounded-xl bg-lightGreen p-8">
@@ -39,18 +120,27 @@ const PartnerSection = () => {
             </button>
             <h3 className="mb-4 text-2xl font-bold">Partner Inquiry</h3>
 
+            {/* Status Messages */}
+            {submitStatus === 'success' && (
+              <div className="mb-4 rounded bg-green-100 p-3 text-green-700">
+                {statusMessage}
+              </div>
+            )}
+            {submitStatus === 'error' && (
+              <div className="mb-4 rounded bg-red-100 p-3 text-red-700">
+                {statusMessage}
+              </div>
+            )}
+
             {/* Email Form */}
-            <form
-              className="space-y-4"
-              method="POST"
-              action="mailto:erik@sinkorwin.com"
-              encType="text/plain"
-            >
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="mb-1 block font-medium">Contact Name</label>
                 <input
                   type="text"
-                  name="Name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
                   required
                   className="w-full rounded border border-brand bg-white px-4 py-2 text-brand"
                 />
@@ -59,7 +149,9 @@ const PartnerSection = () => {
                 <label className="mb-1 block font-medium">Phone Number</label>
                 <input
                   type="tel"
-                  name="Phone"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
                   required
                   className="w-full rounded border border-brand bg-white px-4 py-2 text-brand"
                 />
@@ -68,7 +160,9 @@ const PartnerSection = () => {
                 <label className="mb-1 block font-medium">Email</label>
                 <input
                   type="email"
-                  name="Email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
                   required
                   className="w-full rounded border border-brand bg-white px-4 py-2 text-brand"
                 />
@@ -77,7 +171,9 @@ const PartnerSection = () => {
                 <label className="mb-1 block font-medium">Golf Course</label>
                 <input
                   type="text"
-                  name="Golf Course"
+                  name="courseName"
+                  value={formData.courseName}
+                  onChange={handleInputChange}
                   required
                   className="w-full rounded border border-brand bg-white px-4 py-2 text-brand"
                 />
@@ -90,8 +186,10 @@ const PartnerSection = () => {
                   <label className="flex items-center space-x-2">
                     <input
                       type="radio"
-                      name="Large Water Feature"
+                      name="waterFeature"
                       value="Yes"
+                      checked={formData.waterFeature === 'Yes'}
+                      onChange={handleInputChange}
                       required
                       className="accent-brand"
                     />
@@ -100,8 +198,10 @@ const PartnerSection = () => {
                   <label className="flex items-center space-x-2">
                     <input
                       type="radio"
-                      name="Large Water Feature"
+                      name="waterFeature"
                       value="No"
+                      checked={formData.waterFeature === 'No'}
+                      onChange={handleInputChange}
                       required
                       className="accent-brand"
                     />
@@ -109,11 +209,25 @@ const PartnerSection = () => {
                   </label>
                 </div>
               </div>
+              <div>
+                <label className="mb-1 block font-medium">
+                  Additional Message (Optional)
+                </label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  rows={3}
+                  className="w-full rounded border border-brand bg-white px-4 py-2 text-brand"
+                  placeholder="Tell us more about your course..."
+                />
+              </div>
               <button
                 type="submit"
-                className="mt-4 w-full rounded-xl bg-gold py-3 font-semibold text-brand hover:bg-yellow-400"
+                disabled={isSubmitting}
+                className="mt-4 w-full rounded-xl bg-gold py-3 font-semibold text-brand hover:bg-yellow-400 disabled:cursor-not-allowed disabled:opacity-50"
               >
-                Submit Inquiry
+                {isSubmitting ? 'Sending...' : 'Submit Inquiry'}
               </button>
             </form>
           </div>
